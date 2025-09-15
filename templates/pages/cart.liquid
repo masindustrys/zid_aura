@@ -1,0 +1,289 @@
+<!-- Cart Page Template -->
+<div class="cart-page">
+    <div class="container">
+        <div class="cart-header">
+            <h1 class="cart-title">{{ 'general.cart.title' | t }}</h1>
+            
+            <!-- Cart Steps -->
+            <div class="cart-steps">
+                <div class="step active">
+                    <span class="step-number">1</span>
+                    <span class="step-label">{{ 'cart.general.cart' | t }}</span>
+                </div>
+                <div class="step-divider"></div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span class="step-label">{{ 'cart.general.information' | t }}</span>
+                </div>
+                <div class="step-divider"></div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-label">{{ 'cart.general.payment' | t }}</span>
+                </div>
+            </div>
+        </div>
+        
+        {% if cart.item_count > 0 %}
+            <div class="cart-content">
+                <!-- Cart Items -->
+                <div class="cart-items">
+                    <div class="cart-items-header">
+                        <h2>{{ 'cart.general.items' | t }} ({{ cart.item_count }})</h2>
+                    </div>
+                    
+                    <div class="cart-items-list">
+                        {% for item in cart.items %}
+                            <div class="cart-item" data-variant-id="{{ item.variant.id }}">
+                                <div class="item-image">
+                                    <a href="{{ item.product.url }}">
+                                        {% if item.image %}
+                                            <img src="{{ item.image | img_url: '200x200' }}" 
+                                                 alt="{{ item.product.title }}"
+                                                 loading="lazy">
+                                        {% else %}
+                                            <div class="item-image-placeholder">
+                                                <svg viewBox="0 0 24 24" width="60" height="60">
+                                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                
+                                <div class="item-details">
+                                    <div class="item-info">
+                                        <h3 class="item-title">
+                                            <a href="{{ item.product.url }}">{{ item.product.title }}</a>
+                                        </h3>
+                                        
+                                        {% if item.product.vendor %}
+                                            <p class="item-vendor">{{ item.product.vendor }}</p>
+                                        {% endif %}
+                                        
+                                        {% unless item.variant.title == 'Default Title' %}
+                                            <div class="item-variants">
+                                                {% for option in item.options_with_values %}
+                                                    <span class="item-variant">
+                                                        {{ option.name }}: {{ option.value }}
+                                                    </span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endunless %}
+                                        
+                                        {% if item.variant.sku %}
+                                            <p class="item-sku">{{ 'products.product.sku' | t }}: {{ item.variant.sku }}</p>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="item-quantity">
+                                        <label for="quantity-{{ forloop.index }}" class="sr-only">
+                                            {{ 'products.product.quantity' | t }}
+                                        </label>
+                                        <div class="quantity-input-wrapper">
+                                            <button type="button" 
+                                                    class="quantity-btn quantity-minus" 
+                                                    data-action="decrease"
+                                                    data-variant-id="{{ item.variant.id }}"
+                                                    aria-label="Decrease quantity">-</button>
+                                            <input type="number" 
+                                                   id="quantity-{{ forloop.index }}"
+                                                   class="quantity-input" 
+                                                   value="{{ item.quantity }}" 
+                                                   min="0"
+                                                   data-variant-id="{{ item.variant.id }}"
+                                                   aria-label="Quantity">
+                                            <button type="button" 
+                                                    class="quantity-btn quantity-plus" 
+                                                    data-action="increase"
+                                                    data-variant-id="{{ item.variant.id }}"
+                                                    aria-label="Increase quantity">+</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="item-price">
+                                        <div class="item-price-container">
+                                            {% if item.original_price != item.final_price %}
+                                                <span class="item-price-original">{{ item.original_price | money }}</span>
+                                            {% endif %}
+                                            <span class="item-price-final">{{ item.final_price | money }}</span>
+                                        </div>
+                                        
+                                        {% if item.quantity > 1 %}
+                                            <div class="item-price-each">
+                                                {{ item.final_price | money }} {{ 'cart.general.each' | t }}
+                                            </div>
+                                        {% endif %}
+                                        
+                                        <div class="item-line-price">
+                                            {{ item.final_line_price | money }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="item-actions">
+                                        <button type="button" 
+                                                class="btn-remove" 
+                                                data-variant-id="{{ item.variant.id }}"
+                                                aria-label="Remove {{ item.product.title }}">
+                                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        
+                                        {% if settings.enable_wishlist %}
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline save-for-later"
+                                                    data-product-id="{{ item.product.id }}">
+                                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                                </svg>
+                                                {{ 'cart.general.save_for_later' | t }}
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <h3 class="summary-title">{{ 'cart.general.order_summary' | t }}</h3>
+                        
+                        <div class="summary-line">
+                            <span class="summary-label">{{ 'cart.general.subtotal' | t }}</span>
+                            <span class="summary-value">{{ cart.items_subtotal_price | money }}</span>
+                        </div>
+                        
+                        {% if cart.cart_level_discount_applications.size > 0 %}
+                            {% for discount_application in cart.cart_level_discount_applications %}
+                                <div class="summary-line discount">
+                                    <span class="summary-label">
+                                        {{ discount_application.title }}
+                                        <span class="discount-code">({{ discount_application.code }})</span>
+                                    </span>
+                                    <span class="summary-value">-{{ discount_application.total_allocated_amount | money }}</span>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="summary-line">
+                            <span class="summary-label">{{ 'cart.general.shipping' | t }}</span>
+                            <span class="summary-value">{{ 'cart.general.calculated_at_checkout' | t }}</span>
+                        </div>
+                        
+                        <div class="summary-line">
+                            <span class="summary-label">{{ 'cart.general.tax' | t }}</span>
+                            <span class="summary-value">{{ 'cart.general.calculated_at_checkout' | t }}</span>
+                        </div>
+                        
+                        <div class="summary-line total">
+                            <span class="summary-label">{{ 'cart.general.total' | t }}</span>
+                            <span class="summary-value">{{ cart.total_price | money }}</span>
+                        </div>
+                        
+                        <!-- Discount Code -->
+                        <div class="discount-code-section">
+                            <details class="discount-toggle">
+                                <summary>{{ 'cart.general.discount_code' | t }}</summary>
+                                <form class="discount-form" action="{{ routes.cart_add_url }}" method="post">
+                                    <div class="discount-input-wrapper">
+                                        <input type="text" 
+                                               name="discount" 
+                                               placeholder="{{ 'cart.general.discount_code_placeholder' | t }}"
+                                               class="discount-input">
+                                        <button type="submit" class="btn btn-outline">
+                                            {{ 'cart.general.apply' | t }}
+                                        </button>
+                                    </div>
+                                </form>
+                            </details>
+                        </div>
+                        
+                        <!-- Checkout Button -->
+                        <div class="checkout-actions">
+                            <button type="button" class="btn btn-primary btn-lg checkout-btn" onclick="window.location.href='{{ routes.checkout_url }}'">
+                                {{ 'cart.general.checkout' | t }}
+                            </button>
+                            
+                            <div class="payment-icons">
+                                <img src="{{ 'payment-icons.png' | asset_url }}" alt="Payment methods" class="payment-methods">
+                            </div>
+                            
+                            <p class="checkout-note">
+                                {{ 'cart.general.taxes_and_shipping_calculated_at_checkout' | t }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Free Shipping Progress -->
+                    {% assign free_shipping_threshold = 200.00 %}
+                    {% assign remaining_for_free_shipping = free_shipping_threshold | times: 100 | minus: cart.total_price %}
+                    
+                    {% if remaining_for_free_shipping > 0 %}
+                        <div class="free-shipping-progress">
+                            <div class="progress-header">
+                                <span class="progress-text">
+                                    {{ 'cart.general.free_shipping_remaining' | t: amount: remaining_for_free_shipping | money }}
+                                </span>
+                            </div>
+                            <div class="progress-bar">
+                                {% assign progress = cart.total_price | divided_by: free_shipping_threshold | divided_by: 100.0 | times: 100 %}
+                                <div class="progress-fill" style="width: {{ progress }}%"></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="free-shipping-achieved">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+                            </svg>
+                            {{ 'cart.general.free_shipping_unlocked' | t }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Recommended Products -->
+            {% if recommendations.products.size > 0 %}
+                <section class="cart-recommendations">
+                    <h2 class="section-title">{{ 'cart.general.you_might_also_like' | t }}</h2>
+                    <div class="products-carousel" data-carousel="recommendations">
+                        <div class="products-carousel-track">
+                            {% for product in recommendations.products limit: 8 %}
+                                <div class="carousel-slide">
+                                    {% render 'product-card', product: product, show_quick_view: true %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <button class="carousel-btn carousel-prev" aria-label="Previous products">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-btn carousel-next" aria-label="Next products">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+            {% endif %}
+        {% else %}
+            <!-- Empty Cart -->
+            <div class="empty-cart">
+                <div class="empty-cart-icon">
+                    <svg viewBox="0 0 24 24" width="80" height="80">
+                        <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h2 class="empty-cart-title">{{ 'cart.general.empty_cart' | t }}</h2>
+                <p class="empty-cart-description">{{ 'cart.general.empty_cart_description' | t }}</p>
+                <a href="{{ routes.collections_url }}" class="btn btn-primary btn-lg">
+                    {{ 'cart.general.continue_shopping' | t }}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>

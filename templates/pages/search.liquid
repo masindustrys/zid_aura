@@ -1,0 +1,307 @@
+<!-- Search Results Page Template -->
+<div class="search-page">
+    <div class="container">
+        <!-- Search Header -->
+        <div class="search-header">
+            <h1 class="search-title">
+                {% if search.performed %}
+                    {% if search.results_count > 0 %}
+                        {{ 'general.search.results_for_html' | t: terms: search.terms, count: search.results_count }}
+                    {% else %}
+                        {{ 'general.search.no_results_html' | t: terms: search.terms }}
+                    {% endif %}
+                {% else %}
+                    {{ 'general.search.title' | t }}
+                {% endif %}
+            </h1>
+            
+            <!-- Search Form -->
+            <form action="{{ routes.search_url }}" method="get" class="search-form-page">
+                <div class="search-input-wrapper">
+                    <input type="search" 
+                           name="q" 
+                           value="{{ search.terms | escape }}"
+                           placeholder="{{ 'general.search.placeholder' | t }}"
+                           class="search-input"
+                           autocomplete="off"
+                           aria-label="Search products">
+                    <button type="submit" class="search-submit">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M21 21L16.514 16.506M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        {{ 'general.search.submit' | t }}
+                    </button>
+                </div>
+                
+                <!-- Search Filters -->
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <input type="radio" name="type" value="" {% unless search.types contains 'product' or search.types contains 'article' %}checked{% endunless %}>
+                            {{ 'search.general.all' | t }}
+                        </label>
+                        <label class="filter-label">
+                            <input type="radio" name="type" value="product" {% if search.types contains 'product' %}checked{% endif %}>
+                            {{ 'search.general.products' | t }}
+                        </label>
+                        <label class="filter-label">
+                            <input type="radio" name="type" value="article" {% if search.types contains 'article' %}checked{% endif %}>
+                            {{ 'search.general.articles' | t }}
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        {% if search.performed %}
+            {% if search.results_count > 0 %}
+                <!-- Search Results -->
+                <div class="search-results">
+                    <!-- Results Toolbar -->
+                    <div class="results-toolbar">
+                        <div class="results-count">
+                            {{ search.results_count }} 
+                            {% if search.results_count == 1 %}
+                                {{ 'search.general.result' | t }}
+                            {% else %}
+                                {{ 'search.general.results' | t }}
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Sort Options -->
+                        <div class="sort-options">
+                            <label for="search-sort" class="sort-label">{{ 'collections.general.sort_by' | t }}:</label>
+                            <select id="search-sort" class="sort-select" onchange="location = this.value;">
+                                <option value="{{ search.url }}&sort_by=relevance" {% if search.sort_by == 'relevance' or search.sort_by == blank %}selected{% endif %}>
+                                    {{ 'search.sorting.relevance' | t }}
+                                </option>
+                                <option value="{{ search.url }}&sort_by=price-ascending" {% if search.sort_by == 'price-ascending' %}selected{% endif %}>
+                                    {{ 'collections.sorting.price_ascending' | t }}
+                                </option>
+                                <option value="{{ search.url }}&sort_by=price-descending" {% if search.sort_by == 'price-descending' %}selected{% endif %}>
+                                    {{ 'collections.sorting.price_descending' | t }}
+                                </option>
+                                <option value="{{ search.url }}&sort_by=title-ascending" {% if search.sort_by == 'title-ascending' %}selected{% endif %}>
+                                    {{ 'collections.sorting.title_ascending' | t }}
+                                </option>
+                                <option value="{{ search.url }}&sort_by=created-descending" {% if search.sort_by == 'created-descending' %}selected{% endif %}>
+                                    {{ 'collections.sorting.date_descending' | t }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Grid -->
+                    <div class="search-results-grid">
+                        {% for item in search.results %}
+                            {% case item.object_type %}
+                                {% when 'product' %}
+                                    <div class="search-result-item product-result">
+                                        {% render 'product-card', product: item, show_quick_view: true %}
+                                    </div>
+                                
+                                {% when 'article' %}
+                                    <div class="search-result-item article-result">
+                                        <article class="article-card">
+                                            {% if item.image %}
+                                                <div class="article-image">
+                                                    <a href="{{ item.url }}">
+                                                        <img src="{{ item.image | img_url: '300x200' }}" 
+                                                             alt="{{ item.title }}"
+                                                             loading="lazy">
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+                                            
+                                            <div class="article-content">
+                                                <div class="article-meta">
+                                                    <span class="article-date">{{ item.published_at | date: format: 'month_day_year' }}</span>
+                                                    {% if item.author %}
+                                                        <span class="article-author">{{ 'blog.general.by_author' | t: author: item.author }}</span>
+                                                    {% endif %}
+                                                    <span class="article-type">{{ 'search.general.article' | t }}</span>
+                                                </div>
+                                                
+                                                <h3 class="article-title">
+                                                    <a href="{{ item.url }}">{{ item.title }}</a>
+                                                </h3>
+                                                
+                                                {% if item.excerpt %}
+                                                    <p class="article-excerpt">{{ item.excerpt | strip_html | truncate: 150 }}</p>
+                                                {% endif %}
+                                                
+                                                <a href="{{ item.url }}" class="article-read-more">
+                                                    {{ 'blog.general.read_more' | t }}
+                                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" fill="currentColor"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </article>
+                                    </div>
+                                
+                                {% when 'page' %}
+                                    <div class="search-result-item page-result">
+                                        <div class="page-card">
+                                            <div class="page-content">
+                                                <div class="page-meta">
+                                                    <span class="page-type">{{ 'search.general.page' | t }}</span>
+                                                </div>
+                                                
+                                                <h3 class="page-title">
+                                                    <a href="{{ item.url }}">{{ item.title }}</a>
+                                                </h3>
+                                                
+                                                {% if item.content %}
+                                                    <p class="page-excerpt">{{ item.content | strip_html | truncate: 150 }}</p>
+                                                {% endif %}
+                                                
+                                                <a href="{{ item.url }}" class="page-read-more">
+                                                    {{ 'search.general.view_page' | t }}
+                                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" fill="currentColor"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endcase %}
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if paginate.pages > 1 %}
+                        <nav class="pagination" aria-label="Search results pagination">
+                            {% if paginate.previous %}
+                                <a href="{{ paginate.previous.url }}" class="pagination-btn pagination-prev">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                                    </svg>
+                                    {{ 'general.pagination.previous' | t }}
+                                </a>
+                            {% endif %}
+                            
+                            <div class="pagination-pages">
+                                {% for part in paginate.parts %}
+                                    {% if part.is_link %}
+                                        <a href="{{ part.url }}" class="pagination-page">{{ part.title }}</a>
+                                    {% else %}
+                                        {% if part.title == paginate.current_page %}
+                                            <span class="pagination-page current">{{ part.title }}</span>
+                                        {% else %}
+                                            <span class="pagination-page">{{ part.title }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            
+                            {% if paginate.next %}
+                                <a href="{{ paginate.next.url }}" class="pagination-btn pagination-next">
+                                    {{ 'general.pagination.next' | t }}
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            {% endif %}
+                        </nav>
+                    {% endif %}
+                </div>
+            {% else %}
+                <!-- No Results -->
+                <div class="no-results">
+                    <div class="no-results-icon">
+                        <svg viewBox="0 0 24 24" width="64" height="64">
+                            <path d="M21 21L16.514 16.506M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <h2 class="no-results-title">{{ 'search.general.no_results_title' | t }}</h2>
+                    <p class="no-results-description">{{ 'search.general.no_results_description' | t }}</p>
+                    
+                    <!-- Search Suggestions -->
+                    <div class="search-suggestions">
+                        <h3>{{ 'search.general.suggestions' | t }}</h3>
+                        <ul class="suggestions-list">
+                            <li>{{ 'search.general.suggestion_spelling' | t }}</li>
+                            <li>{{ 'search.general.suggestion_keywords' | t }}</li>
+                            <li>{{ 'search.general.suggestion_general' | t }}</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Popular Searches -->
+                    {% if settings.popular_searches %}
+                        <div class="popular-searches">
+                            <h3>{{ 'search.general.popular_searches' | t }}</h3>
+                            <div class="popular-search-tags">
+                                {% assign popular_searches = settings.popular_searches | split: ',' %}
+                                {% for search_term in popular_searches %}
+                                    <a href="{{ routes.search_url }}?q={{ search_term | strip | url_encode }}" 
+                                       class="search-tag">{{ search_term | strip }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Browse Collections -->
+                    <div class="browse-collections">
+                        <h3>{{ 'search.general.browse_collections' | t }}</h3>
+                        <div class="collections-grid">
+                            {% for collection in collections limit: 6 %}
+                                {% unless collection.handle == 'frontpage' %}
+                                    <a href="{{ collection.url }}" class="collection-link">
+                                        {% if collection.image %}
+                                            <img src="{{ collection.image | img_url: '150x150' }}" 
+                                                 alt="{{ collection.title }}"
+                                                 loading="lazy">
+                                        {% endif %}
+                                        <span class="collection-name">{{ collection.title }}</span>
+                                    </a>
+                                {% endunless %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <!-- Search Landing -->
+            <div class="search-landing">
+                <div class="search-landing-content">
+                    <h2>{{ 'search.general.search_our_store' | t }}</h2>
+                    <p>{{ 'search.general.search_description' | t }}</p>
+                    
+                    <!-- Featured Categories -->
+                    <div class="featured-categories">
+                        <h3>{{ 'search.general.popular_categories' | t }}</h3>
+                        <div class="categories-grid">
+                            {% for collection in collections limit: 8 %}
+                                {% unless collection.handle == 'frontpage' %}
+                                    <a href="{{ collection.url }}" class="category-card">
+                                        {% if collection.image %}
+                                            <img src="{{ collection.image | img_url: '200x150' }}" 
+                                                 alt="{{ collection.title }}"
+                                                 loading="lazy">
+                                        {% endif %}
+                                        <div class="category-info">
+                                            <h4 class="category-name">{{ collection.title }}</h4>
+                                            <p class="category-count">{{ collection.products_count }} {{ 'general.products.items' | t }}</p>
+                                        </div>
+                                    </a>
+                                {% endunless %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Search Tips -->
+                    <div class="search-tips">
+                        <h3>{{ 'search.general.search_tips' | t }}</h3>
+                        <ul class="tips-list">
+                            <li>{{ 'search.general.tip_specific' | t }}</li>
+                            <li>{{ 'search.general.tip_keywords' | t }}</li>
+                            <li>{{ 'search.general.tip_brands' | t }}</li>
+                            <li>{{ 'search.general.tip_categories' | t }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

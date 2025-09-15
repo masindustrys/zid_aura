@@ -1,0 +1,525 @@
+{
+  "sections": [
+    {
+      "name": "header",
+      "tag": "header",
+      "class": "site-header",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_announcement",
+          "label": "Show announcement bar",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "announcement_text",
+          "label": "Announcement text",
+          "default": "Free shipping on orders over $50!"
+        },
+        {
+          "type": "color",
+          "id": "announcement_bg_color",
+          "label": "Announcement background color",
+          "default": "#000000"
+        }
+      ]
+    },
+    {
+      "name": "hero",
+      "tag": "section",
+      "class": "hero-section",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "hero_background",
+          "label": "Background image"
+        },
+        {
+          "type": "text",
+          "id": "hero_title",
+          "label": "Hero title",
+          "default": "Welcome to Our Store"
+        },
+        {
+          "type": "textarea",
+          "id": "hero_subtitle",
+          "label": "Hero subtitle",
+          "default": "Discover amazing products at great prices"
+        },
+        {
+          "type": "url",
+          "id": "hero_primary_url",
+          "label": "Primary button URL"
+        },
+        {
+          "type": "text",
+          "id": "hero_primary_text",
+          "label": "Primary button text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "hero_secondary_url",
+          "label": "Secondary button URL"
+        },
+        {
+          "type": "text",
+          "id": "hero_secondary_text",
+          "label": "Secondary button text",
+          "default": "Learn More"
+        }
+      ]
+    },
+    {
+      "name": "features",
+      "tag": "section",
+      "class": "features-section",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_features_section",
+          "label": "Show features section",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "features_title",
+          "label": "Section title",
+          "default": "Why Choose Us"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "feature",
+          "name": "Feature",
+          "settings": [
+            {
+              "type": "text",
+              "id": "feature_title",
+              "label": "Feature title"
+            },
+            {
+              "type": "textarea",
+              "id": "feature_description",
+              "label": "Feature description"
+            },
+            {
+              "type": "select",
+              "id": "feature_icon",
+              "label": "Feature icon",
+              "options": [
+                { "value": "quality", "label": "Quality" },
+                { "value": "shipping", "label": "Shipping" },
+                { "value": "support", "label": "Support" },
+                { "value": "returns", "label": "Returns" },
+                { "value": "security", "label": "Security" },
+                { "value": "warranty", "label": "Warranty" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "featured_collection",
+      "tag": "section",
+      "class": "featured-collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "section_title",
+          "label": "Section title",
+          "default": "Featured Products"
+        },
+        {
+          "type": "textarea",
+          "id": "section_description",
+          "label": "Section description"
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "label": "Products to show",
+          "min": 4,
+          "max": 12,
+          "step": 2,
+          "default": 8
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            { "value": "grid", "label": "Grid" },
+            { "value": "carousel", "label": "Carousel" }
+          ],
+          "default": "grid"
+        }
+      ]
+    },
+    {
+      "name": "newsletter",
+      "tag": "section",
+      "class": "newsletter-section",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_newsletter_signup",
+          "label": "Show newsletter signup",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "newsletter_title",
+          "label": "Newsletter title",
+          "default": "Stay in the loop"
+        },
+        {
+          "type": "textarea",
+          "id": "newsletter_description",
+          "label": "Newsletter description",
+          "default": "Subscribe to our newsletter for the latest updates and exclusive offers"
+        },
+        {
+          "type": "color",
+          "id": "newsletter_bg_color",
+          "label": "Background color",
+          "default": "#007bff"
+        }
+      ]
+    },
+    {
+      "name": "testimonials",
+      "tag": "section",
+      "class": "testimonials-section",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_testimonials",
+          "label": "Show testimonials section",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "testimonials_title",
+          "label": "Section title",
+          "default": "What Our Customers Say"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "testimonial",
+          "name": "Testimonial",
+          "settings": [
+            {
+              "type": "text",
+              "id": "customer_name",
+              "label": "Customer name"
+            },
+            {
+              "type": "textarea",
+              "id": "testimonial_text",
+              "label": "Testimonial text"
+            },
+            {
+              "type": "range",
+              "id": "rating",
+              "label": "Rating",
+              "min": 1,
+              "max": 5,
+              "default": 5
+            },
+            {
+              "type": "image_picker",
+              "id": "customer_photo",
+              "label": "Customer photo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "footer",
+      "tag": "footer",
+      "class": "site-footer",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "footer_description",
+          "label": "Footer description"
+        },
+        {
+          "type": "text",
+          "id": "contact_address",
+          "label": "Address"
+        },
+        {
+          "type": "text",
+          "id": "contact_phone",
+          "label": "Phone number"
+        },
+        {
+          "type": "email",
+          "id": "contact_email",
+          "label": "Email address"
+        },
+        {
+          "type": "text",
+          "id": "contact_hours",
+          "label": "Business hours"
+        },
+        {
+          "type": "url",
+          "id": "social_facebook_url",
+          "label": "Facebook URL"
+        },
+        {
+          "type": "url",
+          "id": "social_twitter_url",
+          "label": "Twitter URL"
+        },
+        {
+          "type": "url",
+          "id": "social_instagram_url",
+          "label": "Instagram URL"
+        },
+        {
+          "type": "url",
+          "id": "social_linkedin_url",
+          "label": "LinkedIn URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_icons",
+          "label": "Show payment icons",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_visa",
+          "label": "Visa",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_mastercard",
+          "label": "Mastercard",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_mada",
+          "label": "Mada",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_paypal",
+          "label": "PayPal",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_apple_pay",
+          "label": "Apple Pay",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "payment_google_pay",
+          "label": "Google Pay",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "name": "Colors",
+      "settings": [
+        {
+          "type": "color",
+          "id": "color_primary",
+          "label": "Primary color",
+          "default": "#007bff"
+        },
+        {
+          "type": "color",
+          "id": "color_secondary",
+          "label": "Secondary color",
+          "default": "#6c757d"
+        },
+        {
+          "type": "color",
+          "id": "color_accent",
+          "label": "Accent color",
+          "default": "#28a745"
+        },
+        {
+          "type": "color",
+          "id": "color_background",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_text",
+          "label": "Text color",
+          "default": "#212529"
+        }
+      ]
+    },
+    {
+      "name": "Typography",
+      "settings": [
+        {
+          "type": "font_picker",
+          "id": "font_primary",
+          "label": "Primary font",
+          "default": "Inter"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_secondary",
+          "label": "Secondary font (headings)",
+          "default": "Playfair Display"
+        },
+        {
+          "type": "range",
+          "id": "font_size_base",
+          "label": "Base font size",
+          "min": 14,
+          "max": 20,
+          "step": 1,
+          "default": 16,
+          "unit": "px"
+        }
+      ]
+    },
+    {
+      "name": "Layout",
+      "settings": [
+        {
+          "type": "range",
+          "id": "container_width",
+          "label": "Container width",
+          "min": 1000,
+          "max": 1400,
+          "step": 50,
+          "default": 1200,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "sidebar_width",
+          "label": "Sidebar width",
+          "min": 250,
+          "max": 350,
+          "step": 25,
+          "default": 300,
+          "unit": "px"
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_wishlist",
+          "label": "Enable wishlist",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_compare",
+          "label": "Enable product compare",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_quick_view",
+          "label": "Enable quick view",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_lazy_loading",
+          "label": "Enable lazy loading",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_dark_mode",
+          "label": "Enable dark mode toggle",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "cart_type",
+          "label": "Cart behavior",
+          "options": [
+            { "value": "page", "label": "Go to cart page" },
+            { "value": "drawer", "label": "Open cart drawer" }
+          ],
+          "default": "drawer"
+        }
+      ]
+    },
+    {
+      "name": "Product Display",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show product vendor",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_color_swatches",
+          "label": "Show color swatches on product cards",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_excerpt",
+          "label": "Show product excerpt on cards",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "products_per_page",
+          "label": "Products per page",
+          "min": 12,
+          "max": 48,
+          "step": 4,
+          "default": 24
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_search_suggestions",
+          "label": "Enable search suggestions",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "popular_searches",
+          "label": "Popular searches (comma separated)",
+          "default": "shoes, bags, accessories, clothing"
+        }
+      ]
+    }
+  ]
+}
