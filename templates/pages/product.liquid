@@ -1,0 +1,331 @@
+<!-- Product Page Template -->
+<div class="product-page">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
+                </li>
+                {% for collection in product.collections %}
+                    <li class="breadcrumb-item">
+                        <a href="{{ collection.url }}">{{ collection.title }}</a>
+                    </li>
+                    {% break %}
+                {% endfor %}
+                <li class="breadcrumb-item active">
+                    {{ product.title }}
+                </li>
+            </ol>
+        </nav>
+        
+        <div class="product-layout">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        {% if product.featured_image %}
+                            <img src="{{ product.featured_image | img_url: '800x800' }}" 
+                                 alt="{{ product.title }}"
+                                 class="product-featured-image"
+                                 id="featured-image">
+                        {% else %}
+                            <div class="product-image-placeholder">
+                                <svg viewBox="0 0 24 24" width="100" height="100">
+                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Product Badges -->
+                        <div class="product-badges">
+                            {% if product.compare_at_price > product.price %}
+                                {% assign discount_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                                <span class="product-badge sale-badge">
+                                    -{{ discount_percentage }}%
+                                </span>
+                            {% endif %}
+                            
+                            {% if product.tags contains 'new' %}
+                                <span class="product-badge new-badge">
+                                    {{ 'products.badges.new' | t }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Thumbnail Images -->
+                    {% if product.images.size > 1 %}
+                        <div class="thumbnail-images">
+                            {% for image in product.images limit: 6 %}
+                                <button type="button" 
+                                        class="thumbnail-btn {% if forloop.first %}active{% endif %}"
+                                        data-image-src="{{ image | img_url: '800x800' }}"
+                                        aria-label="View image {{ forloop.index }}">
+                                    <img src="{{ image | img_url: '100x100' }}" 
+                                         alt="{{ product.title }}"
+                                         class="thumbnail-image">
+                                </button>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Product Information -->
+            <div class="product-info">
+                <div class="product-header">
+                    <h1 class="product-title">{{ product.title }}</h1>
+                    
+                    {% if product.vendor %}
+                        <p class="product-vendor">
+                            {{ 'products.product.vendor' | t }}: 
+                            <a href="{{ collections.vendors-url }}/{{ product.vendor | handle }}">{{ product.vendor }}</a>
+                        </p>
+                    {% endif %}
+                    
+                    <!-- Product Rating -->
+                    {% if product.metafields.reviews.rating %}
+                        <div class="product-rating">
+                            <div class="rating-stars">
+                                {% assign rating = product.metafields.reviews.rating | round %}
+                                {% for i in (1..5) %}
+                                    <span class="star {% if i <= rating %}filled{% endif %}">★</span>
+                                {% endfor %}
+                            </div>
+                            <span class="rating-value">({{ product.metafields.reviews.rating }})</span>
+                            {% if product.metafields.reviews.count %}
+                                <span class="rating-count">{{ product.metafields.reviews.count }} {{ 'products.product.reviews' | t }}</span>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Product Price -->
+                    <div class="product-price">
+                        {% if product.compare_at_price > product.price %}
+                            <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                        {% endif %}
+                        <span class="price-current">{{ product.price | money }}</span>
+                        
+                        {% if product.price_varies %}
+                            <span class="price-note">{{ 'products.general.from' | t }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Product SKU -->
+                    {% if product.selected_or_first_available_variant.sku %}
+                        <p class="product-sku">
+                            {{ 'products.product.sku' | t }}: 
+                            <span id="variant-sku">{{ product.selected_or_first_available_variant.sku }}</span>
+                        </p>
+                    {% endif %}
+                </div>
+                
+                <!-- Product Form -->
+                <form action="{{ routes.cart_add_url }}" method="post" class="product-form" data-product-form>
+                    {% unless product.has_only_default_variant %}
+                        <div class="product-variants">
+                            {% for option in product.options_with_values %}
+                                <div class="variant-option">
+                                    <label class="variant-label">{{ option.name }}</label>
+                                    
+                                    {% if option.name == 'Color' or option.name == 'Colour' %}
+                                        <div class="color-variant-selector">
+                                            {% for value in option.values %}
+                                                <input type="radio" 
+                                                       name="options[{{ option.name }}]" 
+                                                       value="{{ value }}" 
+                                                       id="option-{{ option.name }}-{{ forloop.index }}"
+                                                       {% if forloop.first %}checked{% endif %}>
+                                                <label for="option-{{ option.name }}-{{ forloop.index }}" 
+                                                       class="color-option"
+                                                       style="background-color: {{ value | downcase | replace: ' ', '' }}"
+                                                       title="{{ value }}">
+                                                    <span class="sr-only">{{ value }}</span>
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    {% elsif option.name == 'Size' %}
+                                        <div class="size-variant-selector">
+                                            {% for value in option.values %}
+                                                <input type="radio" 
+                                                       name="options[{{ option.name }}]" 
+                                                       value="{{ value }}" 
+                                                       id="option-{{ option.name }}-{{ forloop.index }}"
+                                                       {% if forloop.first %}checked{% endif %}>
+                                                <label for="option-{{ option.name }}-{{ forloop.index }}" 
+                                                       class="size-option">
+                                                    {{ value }}
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <select name="options[{{ option.name }}]" class="variant-select">
+                                            {% for value in option.values %}
+                                                <option value="{{ value }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endunless %}
+                    
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant-id">
+                    
+                    <!-- Quantity Selector -->
+                    <div class="quantity-selector">
+                        <label for="quantity" class="quantity-label">{{ 'products.product.quantity' | t }}</label>
+                        <div class="quantity-input-wrapper">
+                            <button type="button" class="quantity-btn quantity-minus" aria-label="Decrease quantity">-</button>
+                            <input type="number" 
+                                   name="quantity" 
+                                   id="quantity" 
+                                   class="quantity-input" 
+                                   value="1" 
+                                   min="1"
+                                   max="{{ product.selected_or_first_available_variant.inventory_quantity }}"
+                                   aria-label="Quantity">
+                            <button type="button" class="quantity-btn quantity-plus" aria-label="Increase quantity">+</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Add to Cart Actions -->
+                    <div class="product-actions">
+                        <button type="submit" 
+                                class="btn btn-primary btn-lg add-to-cart-btn"
+                                {% unless product.available %}disabled{% endunless %}>
+                            {% if product.available %}
+                                {{ 'products.general.add_to_cart' | t }}
+                            {% else %}
+                                {{ 'products.general.sold_out' | t }}
+                            {% endif %}
+                        </button>
+                        
+                        {% if settings.enable_wishlist %}
+                            <button type="button" 
+                                    class="btn btn-outline wishlist-btn" 
+                                    data-product-id="{{ product.id }}">
+                                {{ 'general.wishlist.add' | t }}
+                            </button>
+                        {% endif %}
+                    </div>
+                </form>
+                
+                <!-- Product Description -->
+                {% if product.description %}
+                    <div class="product-description">
+                        <h3>{{ 'products.product.description' | t }}</h3>
+                        <div class="description-content">
+                            {{ product.description }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <!-- Product Details -->
+                <div class="product-details">
+                    {% if product.metafields.details.specifications %}
+                        <details class="product-accordion">
+                            <summary>{{ 'products.product.specifications' | t }}</summary>
+                            <div class="accordion-content">
+                                {{ product.metafields.details.specifications }}
+                            </div>
+                        </details>
+                    {% endif %}
+                    
+                    <details class="product-accordion">
+                        <summary>{{ 'general.footer.shipping_info' | t }}</summary>
+                        <div class="accordion-content">
+                            {{ pages.shipping-policy.content | default: 'Shipping information will be calculated at checkout.' }}
+                        </div>
+                    </details>
+                    
+                    <details class="product-accordion">
+                        <summary>{{ 'general.footer.returns' | t }}</summary>
+                        <div class="accordion-content">
+                            {{ pages.return-policy.content | default: 'Return policy information.' }}
+                        </div>
+                    </details>
+                </div>
+                
+                <!-- Social Sharing -->
+                <div class="product-share">
+                    <h4>{{ 'products.product.share' | t }}</h4>
+                    <div class="share-buttons">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}" 
+                           target="_blank" 
+                           class="share-btn facebook">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/>
+                            </svg>
+                            Facebook
+                        </a>
+                        
+                        <a href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ product.url }}&text={{ product.title }}" 
+                           target="_blank" 
+                           class="share-btn twitter">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/>
+                            </svg>
+                            Twitter
+                        </a>
+                        
+                        <a href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&media={{ product.featured_image | img_url: '600x600' }}&description={{ product.title }}" 
+                           target="_blank" 
+                           class="share-btn pinterest">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.098.119.112.224.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.747 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.565.535 6.624 0 11.99-5.367 11.99-11.99C24.007 5.367 18.641.001 12.017.001z" fill="currentColor"/>
+                            </svg>
+                            Pinterest
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Products -->
+        {% if product.related_products.size > 0 %}
+            <section class="related-products">
+                <h2 class="section-title">{{ 'products.product.related_products' | t }}</h2>
+                <div class="products-grid">
+                    {% for related_product in product.related_products limit: 4 %}
+                        {% render 'product-card', product: related_product, show_quick_view: true %}
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Structured Data for Product -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "image": "{{ product.featured_image | img_url: '600x600' }}",
+  "description": "{{ product.description | strip_html | escape }}",
+  "sku": "{{ product.selected_or_first_available_variant.sku }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.vendor | default: shop.name | escape }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ shop.url }}{{ product.url }}",
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price | divided_by: 100.0 }}",
+    {% if product.compare_at_price > product.price %}
+      "priceValidUntil": "{{ 'now' | date: '%Y-%m-%d' }}",
+    {% endif %}
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  }
+  {% if product.metafields.reviews.rating %}
+    ,"aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "{{ product.metafields.reviews.rating }}",
+      "reviewCount": "{{ product.metafields.reviews.count | default: 1 }}"
+    }
+  {% endif %}
+}
+</script>

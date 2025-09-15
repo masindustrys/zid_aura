@@ -1,0 +1,66 @@
+{
+  "name": "Zid Aura",
+  "version": "1.0.0",
+  "description": "A comprehensive, modern e-commerce theme for Zid platform suitable for all business niches",
+  "author": "Zid Aura Team",
+  "license": "MIT",
+  "keywords": ["ecommerce", "responsive", "modern", "multipurpose", "zid"],
+  "engines": {
+    "zid": ">=2.0.0"
+  },
+  "preview": {
+    "desktop": "assets/images/preview-desktop.jpg",
+    "mobile": "assets/images/preview-mobile.jpg"
+  },
+  "customization": {
+    "colors": {
+      "primary": "#007bff",
+      "secondary": "#6c757d", 
+      "accent": "#28a745",
+      "background": "#ffffff",
+      "text": "#212529"
+    },
+    "typography": {
+      "primary_font": "Inter",
+      "secondary_font": "Playfair Display",
+      "font_sizes": {
+        "small": "14px",
+        "medium": "16px", 
+        "large": "18px",
+        "xl": "24px",
+        "xxl": "32px"
+      }
+    },
+    "layout": {
+      "container_width": "1200px",
+      "sidebar_width": "300px",
+      "header_height": "80px",
+      "footer_height": "auto"
+    },
+    "features": {
+      "rtl_support": true,
+      "dark_mode": true,
+      "mega_menu": true,
+      "quick_view": true,
+      "wishlist": true,
+      "compare": true,
+      "ajax_cart": true,
+      "lazy_loading": true,
+      "seo_optimized": true
+    }
+  },
+  "supported_languages": ["ar", "en"],
+  "supported_currencies": ["SAR", "USD", "EUR"],
+  "categories": [
+    "fashion",
+    "electronics", 
+    "food",
+    "books",
+    "home",
+    "beauty",
+    "sports",
+    "automotive",
+    "services",
+    "digital"
+  ]
+}

@@ -1,0 +1,468 @@
+/* Responsive Design Styles */
+
+/* Mobile First Approach - Base styles are for mobile */
+
+/* Extra Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .hero-section {
+    min-height: 40vh;
+    padding: var(--spacing-2xl) 0;
+  }
+  
+  .hero-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+  
+  .section-title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .header-actions {
+    gap: var(--spacing-xs);
+  }
+  
+  .action-text {
+    display: none;
+  }
+  
+  .cart-total {
+    display: none;
+  }
+  
+  .carousel-slide {
+    flex: 0 0 280px;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .newsletter-form .form-group {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .carousel-slide {
+    flex: 0 0 250px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .container {
+    padding: 0 var(--spacing-lg);
+  }
+  
+  .desktop-nav {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .header-search {
+    max-width: 400px;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .carousel-slide {
+    flex: 0 0 300px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .footer-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .action-text {
+    display: inline;
+    font-size: var(--font-size-xs);
+  }
+  
+  .carousel-slide {
+    flex: 0 0 280px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .footer-content {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .action-text {
+    display: inline;
+  }
+  
+  .cart-total {
+    display: inline;
+  }
+  
+  .carousel-slide {
+    flex: 0 0 300px;
+  }
+  
+  /* Show more menu items on larger screens */
+  .nav-menu {
+    gap: var(--spacing-sm);
+  }
+}
+
+/* Ultra wide screens (1400px and up) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .carousel-slide {
+    flex: 0 0 320px;
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+  /* Hide desktop navigation */
+  .desktop-nav {
+    display: none;
+  }
+  
+  /* Show mobile menu toggle */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* Hide top bar on mobile */
+  .header-top-bar {
+    display: none;
+  }
+  
+  /* Adjust header layout */
+  .header-main-content {
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+  
+  .header-logo {
+    order: 1;
+    flex: 1;
+  }
+  
+  .header-actions {
+    order: 2;
+    flex-shrink: 0;
+  }
+  
+  .header-search {
+    order: 3;
+    flex: 1 0 100%;
+    max-width: none;
+    margin-top: var(--spacing-sm);
+  }
+  
+  /* Adjust hero section */
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+  
+  .hero-actions .btn {
+    width: 100%;
+  }
+  
+  /* Adjust newsletter form */
+  .newsletter-form .form-group {
+    flex-direction: column;
+  }
+  
+  .newsletter-input {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .newsletter-submit {
+    width: 100%;
+  }
+  
+  /* Mobile footer adjustments */
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-md);
+  }
+  
+  .legal-links {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .payment-icons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* Tablet specific styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .header-search {
+    max-width: 300px;
+  }
+  
+  /* Show simplified navigation */
+  .nav-menu .nav-item:nth-child(n+6) {
+    display: none;
+  }
+  
+  /* Adjust mega menu */
+  .mega-menu {
+    width: 80vw;
+  }
+  
+  .mega-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop specific styles */
+@media (min-width: 1025px) {
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  .mobile-nav {
+    display: none;
+  }
+  
+  .header-search {
+    max-width: 500px;
+  }
+  
+  /* Show all action text */
+  .action-text {
+    display: inline;
+  }
+  
+  /* Hover effects for desktop */
+  .product-card:hover .product-quick-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .nav-item:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo-image,
+  .footer-logo-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    min-height: 50vh;
+  }
+  
+  .mobile-nav {
+    width: 60%;
+  }
+}
+
+/* Print styles */
+@media print {
+  .site-header,
+  .main-navigation,
+  .site-footer,
+  .mobile-menu-overlay,
+  .search-overlay,
+  .cart-drawer,
+  .quick-view-modal,
+  .dark-mode-toggle {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  
+  .product-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .btn {
+    display: none !important;
+  }
+  
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  
+  .price-current {
+    font-weight: bold !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .carousel-btn,
+  .quick-action-btn,
+  .product-card {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border-width: 2px;
+  }
+  
+  .product-card {
+    border-width: 2px;
+  }
+  
+  .form-control,
+  .form-select {
+    border-width: 2px;
+  }
+}
+
+/* Dark theme in system preferences */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background: #1a1a1a;
+    --color-text: #ffffff;
+    --color-text-light: #cccccc;
+    --color-border: #333333;
+    --color-primary: #4da6ff;
+  }
+}

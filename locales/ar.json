@@ -1,0 +1,227 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_text": "انتقل إلى المحتوى",
+      "close": "إغلاق",
+      "loading": "جاري التحميل",
+      "selection_help": "اضغط على مفتاح المسافة ثم مفاتيح الأسهم لإجراء التحديد",
+      "selected": "محدد"
+    },
+    "meta": {
+      "tags": "مُعلم \"{{ tags }}\"",
+      "page": "صفحة {{ page }}"
+    },
+    "404": {
+      "title": "404 الصفحة غير موجودة",
+      "subtext_html": "الصفحة التي طلبتها غير موجودة. انقر <a href=\"{{ url }}\">هنا</a> لمتابعة التسوق."
+    },
+    "breadcrumbs": {
+      "home": "الرئيسية",
+      "home_link_title": "العودة إلى الصفحة الرئيسية"
+    },
+    "newsletter_form": {
+      "newsletter_email": "your-email@example.com",
+      "submit": "اشتراك",
+      "confirmation": "شكراً لك على الاشتراك"
+    },
+    "search": {
+      "search": "بحث",
+      "no_results_html": "بحثك عن \"{{ terms }}\" لم يؤت بأي نتائج.",
+      "results_for_html": "بحثك عن \"{{ terms }}\" كشف عن التالي:",
+      "title": "البحث في موقعنا",
+      "placeholder": "البحث في المنتجات...",
+      "submit": "بحث"
+    },
+    "newsletter": {
+      "title": "ابق على اطلاع",
+      "description": "اشترك في نشرتنا البريدية للحصول على آخر التحديثات والعروض الحصرية",
+      "email_placeholder": "أدخل عنوان بريدك الإلكتروني",
+      "subscribe": "اشتراك",
+      "privacy_text": "نحن نحترم خصوصيتك ولن نشارك معلوماتك أبداً"
+    },
+    "navigation": {
+      "menu": "القائمة",
+      "sale": "تخفيضات",
+      "hot": "جديد"
+    },
+    "account": {
+      "title": "حسابي",
+      "login": "تسجيل الدخول",
+      "logout": "تسجيل الخروج",
+      "register": "إنشاء حساب",
+      "create_account": "إنشاء حساب جديد"
+    },
+    "cart": {
+      "title": "عربة التسوق",
+      "add": "أضف إلى العربة",
+      "remove": "إزالة",
+      "update": "تحديث",
+      "checkout": "الدفع",
+      "empty": "عربة التسوق فارغة",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "total": "المجموع الكلي"
+    },
+    "wishlist": {
+      "title": "قائمة الأمنيات",
+      "add": "أضف إلى قائمة الأمنيات",
+      "remove": "إزالة من قائمة الأمنيات",
+      "empty": "قائمة أمنياتك فارغة"
+    },
+    "compare": {
+      "title": "مقارنة",
+      "add": "أضف للمقارنة",
+      "remove": "إزالة من المقارنة",
+      "empty": "لا توجد منتجات للمقارنة"
+    },
+    "footer": {
+      "follow_us": "تابعنا",
+      "quick_links": "روابط سريعة",
+      "customer_service": "خدمة العملاء",
+      "contact_info": "معلومات الاتصال",
+      "contact_us": "اتصل بنا",
+      "shipping_info": "معلومات الشحن",
+      "returns": "المرتجعات والاستبدال",
+      "faq": "الأسئلة الشائعة",
+      "size_guide": "دليل المقاسات",
+      "privacy_policy": "سياسة الخصوصية",
+      "terms_of_service": "شروط الخدمة",
+      "refund_policy": "سياسة الاسترداد",
+      "all_rights_reserved": "جميع الحقوق محفوظة"
+    },
+    "home": {
+      "shop_now": "تسوق الآن",
+      "featured_products": "المنتجات المميزة",
+      "featured_products_desc": "اكتشف مجموعتنا المختارة بعناية من المنتجات المميزة",
+      "view_all_featured": "عرض جميع المنتجات المميزة",
+      "shop_by_category": "تسوق حسب الفئة",
+      "bestsellers": "الأكثر مبيعاً",
+      "bestsellers_desc": "المنتجات الأكثر شعبية التي اختارها عملاؤنا",
+      "testimonials": "ماذا يقول عملاؤنا"
+    },
+    "features": {
+      "quality": "جودة مميزة",
+      "quality_desc": "نضمن أعلى جودة في كل منتج نقدمه",
+      "shipping": "شحن مجاني",
+      "shipping_desc": "استمتع بالشحن المجاني على الطلبات أكثر من 200 ريال",
+      "support": "دعم 24/7",
+      "support_desc": "فريق خدمة العملاء موجود لمساعدتك في أي وقت",
+      "returns": "إرجاع سهل",
+      "returns_desc": "إرجاع بدون متاعب خلال 30 يوماً من الشراء"
+    },
+    "social": {
+      "alt_text": {
+        "share_on_facebook": "شارك على فيسبوك",
+        "share_on_twitter": "شارك على تويتر",
+        "share_on_pinterest": "شارك على بينتريست"
+      }
+    },
+    "payment": {
+      "method": "طريقة الدفع"
+    }
+  },
+  "products": {
+    "general": {
+      "sale_price": "سعر التخفيض",
+      "regular_price": "السعر العادي",
+      "saving_amount": "وفر {{ amount }}",
+      "sold_out": "نفدت الكمية",
+      "unavailable": "غير متوفر",
+      "from": "من",
+      "add_to_cart": "أضف إلى العربة",
+      "back_to_collection": "العودة إلى {{ title }}",
+      "view_in_space": "عرض في المساحة الخاصة بك",
+      "view_in_space_label": "عرض في المساحة الخاصة بك، يفتح نافذة جديدة",
+      "quantity": "الكمية",
+      "add_to_cart_success": "تم إضافة {{ product_title }} إلى عربة التسوق",
+      "add_to_cart_error": "حدث خطأ عند إضافة هذا المنتج إلى عربة التسوق"
+    },
+    "product": {
+      "sold_out": "نفدت الكمية",
+      "unavailable": "غير متوفر",
+      "vendor": "العلامة التجارية",
+      "sku": "رقم المنتج",
+      "barcode": "الباركود",
+      "quantity": "الكمية",
+      "price": {
+        "from_price_html": "من {{ price }}",
+        "regular_price": "السعر العادي",
+        "sale_price": "سعر التخفيض",
+        "unit_price": "سعر الوحدة"
+      },
+      "share": "شارك هذا المنتج",
+      "sold_out_html": "هذا المنتج <strong>نفدت كميته</strong>.",
+      "unavailable_html": "هذا المنتج <strong>غير متوفر</strong>.",
+      "compare_at_price": "مقارنة بـ",
+      "include_taxes": "الضريبة مشمولة.",
+      "shipping_policy_html": "يتم حساب <a href=\"{{ link }}\">الشحن</a> عند الدفع.",
+      "description": "الوصف",
+      "specifications": "المواصفات",
+      "reviews": "التقييمات",
+      "related_products": "منتجات ذات صلة",
+      "also_like": "قد يعجبك أيضاً"
+    },
+    "badges": {
+      "sale": "تخفيض",
+      "new": "جديد",
+      "sold_out": "نفدت الكمية",
+      "featured": "مميز",
+      "limited": "محدود"
+    },
+    "items": "قطعة"
+  },
+  "gift_cards": {
+    "issued": {
+      "title_html": "إليك بطاقة الهدية بقيمة {{ value }} من {{ shop }}!",
+      "subtext": "بطاقة الهدية الخاصة بك",
+      "disabled": "معطلة",
+      "expired": "انتهت صلاحيتها في {{ expiry }}",
+      "active": "تنتهي صلاحيتها في {{ expiry }}",
+      "redeem": "استخدم هذا الرمز عند الدفع لاستخدام بطاقة الهدية",
+      "shop_link": "ابدأ التسوق",
+      "print": "طباعة",
+      "remaining_html": "متبقي {{ balance }}",
+      "add_to_apple_wallet": "أضف إلى Apple Wallet"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%d %B، %Y"
+  },
+  "pagefly": {
+    "products": {
+      "product": {
+        "regular_price": "السعر العادي",
+        "sold_out": "نفدت الكمية",
+        "unavailable": "غير متوفر",
+        "on_sale": "تخفيض",
+        "quantity": "الكمية",
+        "add_to_cart": "أضف إلى العربة",
+        "back_to_collection": "العودة إلى {{ title }}",
+        "view_in_space": "عرض في المساحة الخاصة بك"
+      }
+    },
+    "article": {
+      "tags": "العلامات:",
+      "all_topics": "جميع المواضيع",
+      "by_author": "بواسطة {{ author }}",
+      "posted_in": "نُشر في",
+      "read_more": "قراءة المزيد",
+      "back_to_blog": "العودة إلى {{ title }}"
+    },
+    "comments": {
+      "title": "اترك تعليقاً",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "message": "الرسالة",
+      "post": "نشر التعليق",
+      "moderated": "يرجى ملاحظة أن التعليقات تحتاج إلى الموافقة قبل نشرها.",
+      "success_moderated": "تم نشر تعليقك بنجاح. سنقوم بنشره قريباً، حيث أن مدونتنا مُراقبة.",
+      "success": "تم نشر تعليقك بنجاح! شكراً لك!",
+      "comments_with_count": {
+        "one": "تعليق واحد",
+        "other": "{{ count }} تعليقات"
+      }
+    }
+  }
+}

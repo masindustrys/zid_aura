@@ -1,0 +1,183 @@
+<!-- Product Card Component -->
+<div class="product-card" data-product-id="{{ product.id }}">
+    <div class="product-card-image">
+        <a href="{{ product.url }}" class="product-image-link">
+            {% if product.featured_image %}
+                <img src="{{ product.featured_image | img_url: '400x400' }}" 
+                     alt="{{ product.title }}"
+                     class="product-image primary"
+                     loading="lazy"
+                     width="400" 
+                     height="400">
+                
+                {% if product.images[1] %}
+                    <img src="{{ product.images[1] | img_url: '400x400' }}" 
+                         alt="{{ product.title }}"
+                         class="product-image secondary"
+                         loading="lazy"
+                         width="400" 
+                         height="400">
+                {% endif %}
+            {% else %}
+                <div class="product-image-placeholder">
+                    <svg viewBox="0 0 24 24" width="100" height="100">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="currentColor"/>
+                    </svg>
+                </div>
+            {% endif %}
+        </a>
+        
+        <!-- Product Badges -->
+        <div class="product-badges">
+            {% if product.compare_at_price > product.price %}
+                {% assign discount_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                <span class="product-badge sale-badge">
+                    -{{ discount_percentage }}%
+                </span>
+            {% endif %}
+            
+            {% if product.tags contains 'new' %}
+                <span class="product-badge new-badge">
+                    {{ 'products.badges.new' | t }}
+                </span>
+            {% endif %}
+            
+            {% if product.available == false %}
+                <span class="product-badge sold-out-badge">
+                    {{ 'products.badges.sold_out' | t }}
+                </span>
+            {% endif %}
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="product-quick-actions">
+            {% if settings.enable_quick_view and show_quick_view %}
+                <button type="button" 
+                        class="quick-action-btn quick-view-btn" 
+                        data-product-url="{{ product.url }}"
+                        aria-label="Quick view {{ product.title }}">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                    </svg>
+                </button>
+            {% endif %}
+            
+            {% if settings.enable_wishlist %}
+                <button type="button" 
+                        class="quick-action-btn wishlist-btn" 
+                        data-product-id="{{ product.id }}"
+                        aria-label="Add {{ product.title }} to wishlist">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </button>
+            {% endif %}
+            
+            {% if settings.enable_compare %}
+                <button type="button" 
+                        class="quick-action-btn compare-btn" 
+                        data-product-id="{{ product.id }}"
+                        aria-label="Add {{ product.title }} to compare">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M9 17H7v-7h2m3 7h-2V7h2m3 7h-2v-4h2M12 3L2 12h3v8h14v-8h3L12 3z" fill="currentColor"/>
+                    </svg>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="product-card-content">
+        <!-- Product Title -->
+        <h3 class="product-title">
+            <a href="{{ product.url }}" class="product-title-link">
+                {{ product.title }}
+            </a>
+        </h3>
+        
+        <!-- Product Vendor -->
+        {% if product.vendor and settings.show_vendor %}
+            <p class="product-vendor">{{ product.vendor }}</p>
+        {% endif %}
+        
+        <!-- Product Rating -->
+        {% if product.metafields.reviews.rating %}
+            <div class="product-rating">
+                <div class="rating-stars">
+                    {% assign rating = product.metafields.reviews.rating | round %}
+                    {% for i in (1..5) %}
+                        <span class="star {% if i <= rating %}filled{% endif %}">★</span>
+                    {% endfor %}
+                </div>
+                {% if product.metafields.reviews.count %}
+                    <span class="rating-count">({{ product.metafields.reviews.count }})</span>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+        <!-- Product Price -->
+        <div class="product-price">
+            {% if product.compare_at_price > product.price %}
+                <span class="price-compare">{{ product.compare_at_price | money }}</span>
+            {% endif %}
+            <span class="price-current">{{ product.price | money }}</span>
+            
+            {% if product.price_varies %}
+                <span class="price-note">{{ 'products.general.from' | t }}</span>
+            {% endif %}
+        </div>
+        
+        <!-- Product Variants (if enabled) -->
+        {% if settings.show_color_swatches and product.options contains 'Color' %}
+            <div class="product-color-swatches">
+                {% assign color_option = product.options_with_values | where: 'name', 'Color' | first %}
+                {% for value in color_option.values limit: 5 %}
+                    <span class="color-swatch" 
+                          style="background-color: {{ value | downcase | replace: ' ', '' }}"
+                          title="{{ value }}"></span>
+                {% endfor %}
+                {% if color_option.values.size > 5 %}
+                    <span class="color-more">+{{ color_option.values.size | minus: 5 }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+        <!-- Product Description -->
+        {% if settings.show_product_excerpt and product.description %}
+            <p class="product-excerpt">
+                {{ product.description | strip_html | truncate: 100 }}
+            </p>
+        {% endif %}
+        
+        <!-- Add to Cart Form -->
+        <form action="{{ routes.cart_add_url }}" method="post" class="product-form" data-product-form>
+            {% unless product.has_only_default_variant %}
+                <div class="product-variants">
+                    {% for option in product.options_with_values %}
+                        <div class="variant-option">
+                            <label class="variant-label">{{ option.name }}</label>
+                            <select name="options[{{ option.name }}]" class="variant-select">
+                                {% for value in option.values %}
+                                    <option value="{{ value }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endunless %}
+            
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            <div class="product-actions">
+                <button type="submit" 
+                        class="btn btn-primary add-to-cart-btn"
+                        {% unless product.available %}disabled{% endunless %}>
+                    {% if product.available %}
+                        {{ 'products.general.add_to_cart' | t }}
+                    {% else %}
+                        {{ 'products.general.sold_out' | t }}
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
