@@ -1,0 +1,210 @@
+<!-- Footer Component -->
+<div class="footer-wrapper">
+    <!-- Main Footer -->
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Footer Info -->
+                <div class="footer-section footer-info">
+                    <div class="footer-logo">
+                        {% if shop.logo %}
+                            <img src="{{ shop.logo | img_url: '150x60' }}" 
+                                 alt="{{ shop.name }}" 
+                                 class="footer-logo-image">
+                        {% else %}
+                            <span class="footer-logo-text">{{ shop.name }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if settings.footer_description %}
+                        <p class="footer-description">{{ settings.footer_description }}</p>
+                    {% endif %}
+                    
+                    <!-- Social Media Links -->
+                    {% if settings.social_facebook_url or settings.social_twitter_url or settings.social_instagram_url or settings.social_linkedin_url %}
+                        <div class="footer-social">
+                            <h4 class="footer-social-title">{{ 'general.footer.follow_us' | t }}</h4>
+                            <div class="social-links">
+                                {% if settings.social_facebook_url %}
+                                    <a href="{{ settings.social_facebook_url }}" 
+                                       class="social-link facebook" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       aria-label="Facebook">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/>
+                                        </svg>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if settings.social_twitter_url %}
+                                    <a href="{{ settings.social_twitter_url }}" 
+                                       class="social-link twitter" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       aria-label="Twitter">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/>
+                                        </svg>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if settings.social_instagram_url %}
+                                    <a href="{{ settings.social_instagram_url }}" 
+                                       class="social-link instagram" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       aria-label="Instagram">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.148-1.291c-.699-.8-1.291-1.951-1.291-3.248s.592-2.448 1.291-3.148c.7-.7 1.851-1.291 3.148-1.291s2.448.591 3.148 1.291c.7.7 1.291 1.851 1.291 3.148s-.591 2.448-1.291 3.148c-.7.801-1.851 1.291-3.148 1.291zm7.718-3.425c0 .85-.263 1.638-.711 2.29-.448.651-1.077 1.167-1.8 1.473c-.724.306-1.513.471-2.323.471c-.81 0-1.599-.165-2.323-.471c-.723-.306-1.352-.822-1.8-1.473c-.448-.652-.711-1.44-.711-2.29s.263-1.638.711-2.29c.448-.651 1.077-1.167 1.8-1.473c.724-.306 1.513-.471 2.323-.471c.81 0 1.599.165 2.323.471c.723.306 1.352.822 1.8 1.473c.448.652.711 1.44.711 2.29z" fill="currentColor"/>
+                                        </svg>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if settings.social_linkedin_url %}
+                                    <a href="{{ settings.social_linkedin_url }}" 
+                                       class="social-link linkedin" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       aria-label="LinkedIn">
+                                        <svg viewBox="0 0 24 24" width="24" height="24">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/>
+                                        </svg>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section footer-links">
+                    <h4 class="footer-title">{{ 'general.footer.quick_links' | t }}</h4>
+                    <ul class="footer-menu">
+                        {% for link in linklists.footer.links %}
+                            <li class="footer-menu-item">
+                                <a href="{{ link.url }}" class="footer-link">{{ link.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div class="footer-section footer-support">
+                    <h4 class="footer-title">{{ 'general.footer.customer_service' | t }}</h4>
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="{{ pages.contact.url }}" class="footer-link">{{ 'general.footer.contact_us' | t }}</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="{{ pages.shipping.url }}" class="footer-link">{{ 'general.footer.shipping_info' | t }}</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="{{ pages.returns.url }}" class="footer-link">{{ 'general.footer.returns' | t }}</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="{{ pages.faq.url }}" class="footer-link">{{ 'general.footer.faq' | t }}</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="{{ pages.size-guide.url }}" class="footer-link">{{ 'general.footer.size_guide' | t }}</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="footer-section footer-contact">
+                    <h4 class="footer-title">{{ 'general.footer.contact_info' | t }}</h4>
+                    
+                    {% if settings.contact_address %}
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+                            </svg>
+                            <span>{{ settings.contact_address }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if settings.contact_phone %}
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+                            </svg>
+                            <a href="tel:{{ settings.contact_phone }}" class="footer-link">{{ settings.contact_phone }}</a>
+                        </div>
+                    {% endif %}
+                    
+                    {% if settings.contact_email %}
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+                            </svg>
+                            <a href="mailto:{{ settings.contact_email }}" class="footer-link">{{ settings.contact_email }}</a>
+                        </div>
+                    {% endif %}
+                    
+                    {% if settings.contact_hours %}
+                        <div class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" width="16" height="16">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"/>
+                            </svg>
+                            <span>{{ settings.contact_hours }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-bottom-content">
+                <!-- Copyright -->
+                <div class="footer-copyright">
+                    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'general.footer.all_rights_reserved' | t }}</p>
+                </div>
+                
+                <!-- Payment Methods -->
+                {% if settings.show_payment_icons %}
+                    <div class="footer-payment">
+                        <div class="payment-icons">
+                            {% if settings.payment_visa %}
+                                <span class="payment-icon visa" title="Visa">Visa</span>
+                            {% endif %}
+                            {% if settings.payment_mastercard %}
+                                <span class="payment-icon mastercard" title="Mastercard">Mastercard</span>
+                            {% endif %}
+                            {% if settings.payment_mada %}
+                                <span class="payment-icon mada" title="Mada">Mada</span>
+                            {% endif %}
+                            {% if settings.payment_paypal %}
+                                <span class="payment-icon paypal" title="PayPal">PayPal</span>
+                            {% endif %}
+                            {% if settings.payment_apple_pay %}
+                                <span class="payment-icon apple-pay" title="Apple Pay">Apple Pay</span>
+                            {% endif %}
+                            {% if settings.payment_google_pay %}
+                                <span class="payment-icon google-pay" title="Google Pay">Google Pay</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <!-- Legal Links -->
+                <div class="footer-legal">
+                    <ul class="legal-links">
+                        {% if pages.privacy-policy %}
+                            <li><a href="{{ pages.privacy-policy.url }}" class="legal-link">{{ 'general.footer.privacy_policy' | t }}</a></li>
+                        {% endif %}
+                        {% if pages.terms-of-service %}
+                            <li><a href="{{ pages.terms-of-service.url }}" class="legal-link">{{ 'general.footer.terms_of_service' | t }}</a></li>
+                        {% endif %}
+                        {% if pages.refund-policy %}
+                            <li><a href="{{ pages.refund-policy.url }}" class="legal-link">{{ 'general.footer.refund_policy' | t }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

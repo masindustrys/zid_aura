@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}" dir="{{ shop.direction | default: 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description | default: shop.description }}">
+    <meta name="keywords" content="{{ page.keywords | default: shop.keywords }}">
+    
+    <!-- SEO Meta Tags -->
+    <title>{{ page.title | default: shop.name }}</title>
+    <meta property="og:title" content="{{ page.title | default: shop.name }}">
+    <meta property="og:description" content="{{ page.description | default: shop.description }}">
+    <meta property="og:image" content="{{ page.image | default: shop.logo }}">
+    <meta property="og:url" content="{{ shop.url }}{{ page.url }}">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title | default: shop.name }}">
+    <meta name="twitter:description" content="{{ page.description | default: shop.description }}">
+    <meta name="twitter:image" content="{{ page.image | default: shop.logo }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ 'favicon.ico' | asset_url }}">
+    <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'responsive.css' | asset_url }}">
+    
+    <!-- RTL Support -->
+    {% if shop.direction == 'rtl' %}
+        <link rel="stylesheet" href="{{ 'rtl.css' | asset_url }}">
+    {% endif %}
+    
+    <!-- Dark Mode -->
+    <link rel="stylesheet" href="{{ 'dark-mode.css' | asset_url }}" media="(prefers-color-scheme: dark)">
+    
+    <!-- Theme Configuration -->
+    <script>
+        window.theme = {
+            shop: {
+                name: "{{ shop.name }}",
+                locale: "{{ shop.locale }}",
+                currency: "{{ shop.currency }}",
+                direction: "{{ shop.direction | default: 'ltr' }}"
+            },
+            settings: {
+                cartType: "{{ settings.cart_type }}",
+                quickView: {{ settings.enable_quick_view | json }},
+                wishlist: {{ settings.enable_wishlist | json }},
+                compare: {{ settings.enable_compare | json }},
+                lazyLoad: {{ settings.enable_lazy_loading | json }}
+            },
+            routes: {
+                cart: "{{ routes.cart_url }}",
+                search: "{{ routes.search_url }}",
+                account: "{{ routes.account_url }}"
+            }
+        };
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ shop.name }}",
+        "url": "{{ shop.url }}",
+        "description": "{{ shop.description }}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    {% render 'head-scripts' %}
+</head>
+<body class="template-{{ template.name }} {{ template.suffix }}" data-theme="light">
+    
+    <!-- Skip to content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        {% render 'header' %}
+    </header>
+    
+    <!-- Main Navigation -->
+    <nav class="main-navigation" role="navigation" aria-label="Main Navigation">
+        {% render 'navigation' %}
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main">
+        {{ content_for_layout }}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        {% render 'footer' %}
+    </footer>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+    
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        {% render 'search-overlay' %}
+    </div>
+    
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cart-drawer">
+        {% render 'cart-drawer' %}
+    </div>
+    
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        {% render 'quick-view-modal' %}
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'components.js' | asset_url }}" defer></script>
+    
+    {% render 'footer-scripts' %}
+</body>
+</html>

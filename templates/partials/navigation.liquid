@@ -1,0 +1,157 @@
+<!-- Main Navigation Component -->
+<div class="navigation-wrapper">
+    <div class="container">
+        <nav class="main-nav" role="navigation">
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu desktop-nav">
+                {% for link in linklists.main-menu.links %}
+                    <li class="nav-item {% if link.links.size > 0 %}has-dropdown{% endif %}">
+                        <a href="{{ link.url }}" 
+                           class="nav-link {% if link.active %}active{% endif %}"
+                           {% if link.links.size > 0 %}aria-haspopup="true" aria-expanded="false"{% endif %}>
+                            {{ link.title }}
+                            {% if link.links.size > 0 %}
+                                <svg class="dropdown-arrow" viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M7 10l5 5 5-5z" fill="currentColor"/>
+                                </svg>
+                            {% endif %}
+                        </a>
+                        
+                        {% if link.links.size > 0 %}
+                            <!-- Mega Menu / Dropdown -->
+                            <div class="dropdown-menu {% if link.links.size > 6 %}mega-menu{% endif %}">
+                                <div class="dropdown-content">
+                                    {% if link.links.size > 6 %}
+                                        <!-- Mega Menu Layout -->
+                                        <div class="mega-menu-grid">
+                                            {% assign cols = link.links.size | divided_by: 4 | ceil %}
+                                            {% for i in (1..cols) %}
+                                                <div class="mega-menu-col">
+                                                    {% assign start = forloop.index0 | times: 4 %}
+                                                    {% assign end = start | plus: 4 | minus: 1 %}
+                                                    {% for sublink in link.links limit: 4 offset: start %}
+                                                        <div class="mega-menu-item">
+                                                            <a href="{{ sublink.url }}" class="mega-menu-link">
+                                                                {{ sublink.title }}
+                                                            </a>
+                                                            {% if sublink.links.size > 0 %}
+                                                                <ul class="mega-menu-sublinks">
+                                                                    {% for subsublink in sublink.links %}
+                                                                        <li>
+                                                                            <a href="{{ subsublink.url }}">{{ subsublink.title }}</a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <!-- Regular Dropdown -->
+                                        <ul class="dropdown-links">
+                                            {% for sublink in link.links %}
+                                                <li class="dropdown-item">
+                                                    <a href="{{ sublink.url }}" class="dropdown-link">
+                                                        {{ sublink.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                
+                <!-- Special Menu Items -->
+                <li class="nav-item special-menu">
+                    <a href="{{ collections.sale.url }}" class="nav-link sale-link">
+                        {{ 'general.navigation.sale' | t }}
+                        <span class="sale-badge">{{ 'general.navigation.hot' | t }}</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav" id="mobile-nav">
+                <div class="mobile-nav-header">
+                    <h3 class="mobile-nav-title">{{ 'general.navigation.menu' | t }}</h3>
+                    <button class="mobile-nav-close" type="button" aria-label="Close mobile menu">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mobile-nav-content">
+                    <!-- Mobile Search -->
+                    <div class="mobile-search">
+                        <form action="{{ routes.search_url }}" method="get" class="mobile-search-form">
+                            <input type="search" 
+                                   name="q" 
+                                   placeholder="{{ 'general.search.placeholder' | t }}"
+                                   class="mobile-search-input">
+                            <button type="submit" class="mobile-search-submit">
+                                <svg viewBox="0 0 24 24" width="20" height="20">
+                                    <path d="M21 21L16.514 16.506M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Mobile Menu Links -->
+                    <ul class="mobile-nav-menu">
+                        {% for link in linklists.main-menu.links %}
+                            <li class="mobile-nav-item {% if link.links.size > 0 %}has-children{% endif %}">
+                                <a href="{{ link.url }}" class="mobile-nav-link">
+                                    {{ link.title }}
+                                    {% if link.links.size > 0 %}
+                                        <button class="mobile-submenu-toggle" type="button">
+                                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                                <path d="M8 12l4-4 4 4z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                    {% endif %}
+                                </a>
+                                
+                                {% if link.links.size > 0 %}
+                                    <ul class="mobile-submenu">
+                                        {% for sublink in link.links %}
+                                            <li class="mobile-submenu-item">
+                                                <a href="{{ sublink.url }}" class="mobile-submenu-link">
+                                                    {{ sublink.title }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <!-- Mobile Account Links -->
+                    <div class="mobile-account-section">
+                        {% if customer %}
+                            <a href="{{ routes.account_url }}" class="mobile-account-link">
+                                {{ 'general.account.title' | t }}
+                            </a>
+                            <a href="{{ routes.logout_url }}" class="mobile-logout-link">
+                                {{ 'general.account.logout' | t }}
+                            </a>
+                        {% else %}
+                            <a href="{{ routes.account_login_url }}" class="mobile-login-link">
+                                {{ 'general.account.login' | t }}
+                            </a>
+                            <a href="{{ routes.account_register_url }}" class="mobile-register-link">
+                                {{ 'general.account.register' | t }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

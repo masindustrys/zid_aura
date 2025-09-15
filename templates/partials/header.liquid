@@ -1,0 +1,147 @@
+<!-- Header Component -->
+<div class="header-wrapper">
+    <!-- Top Bar -->
+    <div class="header-top-bar">
+        <div class="container">
+            <div class="header-top-content">
+                <div class="header-top-left">
+                    {% if settings.announcement_text %}
+                        <div class="announcement-bar">
+                            {{ settings.announcement_text }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="header-top-right">
+                    <!-- Language Switcher -->
+                    {% if shop.locales.size > 1 %}
+                        <div class="language-switcher">
+                            <select class="language-select" onchange="location = this.value;">
+                                {% for locale in shop.locales %}
+                                    <option value="{{ locale.url }}" {% if locale == shop.locale %}selected{% endif %}>
+                                        {{ locale.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Currency Switcher -->
+                    {% if shop.currencies.size > 1 %}
+                        <div class="currency-switcher">
+                            <select class="currency-select" onchange="location = this.value;">
+                                {% for currency in shop.currencies %}
+                                    <option value="{{ currency.url }}" {% if currency == shop.currency %}selected{% endif %}>
+                                        {{ currency.code }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Account Links -->
+                    <div class="account-links">
+                        {% if customer %}
+                            <a href="{{ routes.account_url }}" class="account-link">
+                                {{ 'general.account.title' | t }}
+                            </a>
+                            <a href="{{ routes.logout_url }}" class="logout-link">
+                                {{ 'general.account.logout' | t }}
+                            </a>
+                        {% else %}
+                            <a href="{{ routes.account_login_url }}" class="login-link">
+                                {{ 'general.account.login' | t }}
+                            </a>
+                            <a href="{{ routes.account_register_url }}" class="register-link">
+                                {{ 'general.account.register' | t }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Header -->
+    <div class="header-main">
+        <div class="container">
+            <div class="header-main-content">
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" type="button" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Logo -->
+                <div class="header-logo">
+                    <a href="{{ routes.root_url }}" class="logo-link">
+                        {% if shop.logo %}
+                            <img src="{{ shop.logo | img_url: '200x80' }}" 
+                                 alt="{{ shop.name }}" 
+                                 class="logo-image"
+                                 width="200" 
+                                 height="80">
+                        {% else %}
+                            <span class="logo-text">{{ shop.name }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="header-search">
+                    <form action="{{ routes.search_url }}" method="get" class="search-form">
+                        <div class="search-input-wrapper">
+                            <input type="search" 
+                                   name="q" 
+                                   placeholder="{{ 'general.search.placeholder' | t }}"
+                                   class="search-input"
+                                   autocomplete="off"
+                                   aria-label="Search products">
+                            <button type="submit" class="search-submit" aria-label="Submit search">
+                                <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
+                                    <path d="M21 21L16.514 16.506M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="search-suggestions" id="search-suggestions"></div>
+                    </form>
+                </div>
+                
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <!-- Wishlist -->
+                    {% if settings.enable_wishlist %}
+                        <a href="{{ routes.wishlist_url }}" class="header-action wishlist-action">
+                            <svg class="action-icon" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="action-text">{{ 'general.wishlist.title' | t }}</span>
+                            <span class="wishlist-count">{{ customer.wishlist.items_count | default: 0 }}</span>
+                        </a>
+                    {% endif %}
+                    
+                    <!-- Compare -->
+                    {% if settings.enable_compare %}
+                        <a href="{{ routes.compare_url }}" class="header-action compare-action">
+                            <svg class="action-icon" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M9 17H7v-7h2m3 7h-2V7h2m3 7h-2v-4h2M12 3L2 12h3v8h14v-8h3L12 3z" fill="currentColor"/>
+                            </svg>
+                            <span class="action-text">{{ 'general.compare.title' | t }}</span>
+                            <span class="compare-count">0</span>
+                        </a>
+                    {% endif %}
+                    
+                    <!-- Cart -->
+                    <a href="{{ routes.cart_url }}" class="header-action cart-action" id="cart-toggle">
+                        <svg class="action-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor"/>
+                        </svg>
+                        <span class="action-text">{{ 'general.cart.title' | t }}</span>
+                        <span class="cart-count">{{ cart.item_count }}</span>
+                        <span class="cart-total">{{ cart.total_price | money }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

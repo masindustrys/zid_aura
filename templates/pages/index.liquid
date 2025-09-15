@@ -1,0 +1,228 @@
+<!-- Home Page Template -->
+
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{{ settings.hero_background | img_url: '1920x800' }}');">
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">{{ settings.hero_title | default: 'Welcome to Our Store' }}</h1>
+            <p class="hero-subtitle">{{ settings.hero_subtitle | default: 'Discover amazing products at great prices' }}</p>
+            <div class="hero-actions">
+                <a href="{{ collections.all.url }}" class="btn btn-primary btn-lg">
+                    {{ 'general.home.shop_now' | t }}
+                </a>
+                {% if settings.hero_secondary_link %}
+                    <a href="{{ settings.hero_secondary_url }}" class="btn btn-outline btn-lg">
+                        {{ settings.hero_secondary_text | default: 'Learn More' }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+{% if settings.show_features_section %}
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">{{ 'general.features.quality' | t }}</h3>
+                    <p class="feature-description">{{ 'general.features.quality_desc' | t }}</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48">
+                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">{{ 'general.features.shipping' | t }}</h3>
+                    <p class="feature-description">{{ 'general.features.shipping_desc' | t }}</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">{{ 'general.features.support' | t }}</h3>
+                    <p class="feature-description">{{ 'general.features.support_desc' | t }}</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19v2h-3v1.5L12 6l-4-0.5V5H5V3h1.5L9 1.5h6L17.5 3z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">{{ 'general.features.returns' | t }}</h3>
+                    <p class="feature-description">{{ 'general.features.returns_desc' | t }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Featured Collections -->
+{% if collections.featured.products.size > 0 %}
+    <section class="featured-collections">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{{ 'general.home.featured_products' | t }}</h2>
+                <p class="section-subtitle">{{ 'general.home.featured_products_desc' | t }}</p>
+            </div>
+            
+            <div class="products-grid">
+                {% for product in collections.featured.products limit: 8 %}
+                    {% render 'product-card', product: product, show_quick_view: true %}
+                {% endfor %}
+            </div>
+            
+            <div class="section-footer">
+                <a href="{{ collections.featured.url }}" class="btn btn-outline">
+                    {{ 'general.home.view_all_featured' | t }}
+                </a>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Category Showcase -->
+{% if settings.show_category_showcase %}
+    <section class="category-showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{{ 'general.home.shop_by_category' | t }}</h2>
+            </div>
+            
+            <div class="categories-grid">
+                {% for collection in collections limit: 6 %}
+                    {% unless collection.handle == 'all' %}
+                        <div class="category-card">
+                            <a href="{{ collection.url }}" class="category-link">
+                                <div class="category-image">
+                                    {% if collection.image %}
+                                        <img src="{{ collection.image | img_url: '400x300' }}" 
+                                             alt="{{ collection.title }}"
+                                             loading="lazy">
+                                    {% else %}
+                                        <div class="category-placeholder">
+                                            <svg viewBox="0 0 24 24" width="48" height="48">
+                                                <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1z" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-title">{{ collection.title }}</h3>
+                                    <p class="category-count">{{ collection.products_count }} {{ 'general.products.items' | t }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endunless %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Best Sellers -->
+{% if collections.bestsellers.products.size > 0 %}
+    <section class="bestsellers-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{{ 'general.home.bestsellers' | t }}</h2>
+                <p class="section-subtitle">{{ 'general.home.bestsellers_desc' | t }}</p>
+            </div>
+            
+            <div class="products-carousel" data-carousel="bestsellers">
+                <div class="products-carousel-track">
+                    {% for product in collections.bestsellers.products limit: 12 %}
+                        <div class="carousel-slide">
+                            {% render 'product-card', product: product, show_quick_view: true %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <button class="carousel-btn carousel-prev" aria-label="Previous products">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="carousel-btn carousel-next" aria-label="Next products">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Newsletter Signup -->
+{% if settings.show_newsletter_signup %}
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h2 class="newsletter-title">{{ 'general.newsletter.title' | t }}</h2>
+                    <p class="newsletter-subtitle">{{ 'general.newsletter.description' | t }}</p>
+                </div>
+                
+                <form class="newsletter-form" action="{{ routes.newsletter_url }}" method="post">
+                    <div class="form-group">
+                        <input type="email" 
+                               name="email" 
+                               placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
+                               class="newsletter-input"
+                               required>
+                        <button type="submit" class="newsletter-submit">
+                            {{ 'general.newsletter.subscribe' | t }}
+                        </button>
+                    </div>
+                    <p class="newsletter-privacy">{{ 'general.newsletter.privacy_text' | t }}</p>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if settings.show_testimonials %}
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">{{ 'general.home.testimonials' | t }}</h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                {% for i in (1..3) %}
+                    {% assign testimonial_name = 'testimonial_' | append: i | append: '_name' %}
+                    {% assign testimonial_text = 'testimonial_' | append: i | append: '_text' %}
+                    {% assign testimonial_rating = 'testimonial_' | append: i | append: '_rating' %}
+                    
+                    {% if settings[testimonial_name] and settings[testimonial_text] %}
+                        <div class="testimonial-card">
+                            <div class="testimonial-rating">
+                                {% for j in (1..5) %}
+                                    <span class="star {% if j <= settings[testimonial_rating] %}filled{% endif %}">★</span>
+                                {% endfor %}
+                            </div>
+                            <blockquote class="testimonial-text">
+                                {{ settings[testimonial_text] }}
+                            </blockquote>
+                            <cite class="testimonial-author">{{ settings[testimonial_name] }}</cite>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}
